@@ -18,7 +18,7 @@
             <form action="POST">
                 <div class="form-group">
                     <label for="modalidadesList" class="control-label">Modalidad de grado</label>
-                    <select id="modalidadesList" class="form-control" name="modalidadesList">
+                    <select id="modalidadesList" class="form-control" name="modalidadesList" required>
                         <option value="">Selecciona tu modalidad de grado</option>
                         <option value="1">Monograf&iacute;a</option>
                         <option value="2">Asistencia de Investigaci&&oacute;n</option>
@@ -36,7 +36,7 @@
                 <br/>
                 <div class="form-group">
                     <label for="">Selecciona el formato diligenciado de tu ordenador</label>
-                    <input type="file" class="form-control file" data-show-preview="false">
+                    <input type="file" class="form-control file" data-show-preview="false" required>
                 </div>
                 <input type="submit" class="btn btn-primary btn-block" value="Enviar propuesta de grado" name="btnEnviar" />
             </form>
