@@ -4,9 +4,17 @@
         <servlet-name>FileServlet</servlet-name>
         <servlet-class>controller.FileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PropuestaServlet</servlet-name>
+        <servlet-class>controller.PropuestaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FileServlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PropuestaServlet</servlet-name>
+        <url-pattern>/propuestas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
