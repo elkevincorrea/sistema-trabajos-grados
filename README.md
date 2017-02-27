@@ -1,1 +1,1 @@
-# sistema-trabajos-grados
+# Sistema para el manejo de Propuestas de Grado
