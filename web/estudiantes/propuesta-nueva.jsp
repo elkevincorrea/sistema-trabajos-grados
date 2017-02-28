@@ -17,7 +17,14 @@
             <div class="well">
                 <form action="/SistemaTrabajoGrados/propuestas" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label class="control-label">Estudiantes</label>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label class="control-label">Estudiantes</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control input-sm" name="numestudiantes" id="inputNumEsts" value="1" readonly/>
+                            </div>
+                        </div>
                         <div class="row" id="divest1">
                             <div class="col-md-3">
                                 <input type="text" name="codestudiante1" id="codestudiante1" class="form-control" placeholder="Código" required>
@@ -31,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tematica" class="control-label">Tem&aacute;tica a trabajar</label>
-                        <input type="text" id="tematica" class="form-control">
+                        <input type="text" name="tematica" id="tematica" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="modalidadesList" class="control-label">Modalidad de grado</label>
@@ -63,15 +70,15 @@
             $(document).ready(function (){
                 var ests = 1;
                 $("#agregarEstBtn").click(function() {
-                    console.log("Hello");
                     $("#divest"+ (ests++)).after("<div class=\"row\" id=\"divest" + ests + "\">" +
                             "<div class=\"col-md-3\">" +
-                                "<input type=\"text\" name=\"codestudiante" + ests + "\" id=\"codestudiante" + ests + "\" class=\"form-control\" placeholder=\"Código\">" +
+                                "<input type=\"text\" name=\"codestudiante" + ests + "\" id=\"codestudiante" + ests + "\" class=\"form-control\" placeholder=\"Código\" required>" +
                             "</div>" +
                             "<div class=\"col-md-9\">" +
-                                "<input type=\"text\" name=\"estudiante"+ ests +"\" id=\"estudiante" + ests + "\" class=\"form-control\" placeholder=\"Nombre\">" +
+                                "<input type=\"text\" name=\"estudiante"+ ests +"\" id=\"estudiante" + ests + "\" class=\"form-control\" placeholder=\"Nombre\" required>" +
                             "</div>" +
                         "</div>");
+                    $("#inputNumEsts").val(ests + "");
                 });
             });
         </script>

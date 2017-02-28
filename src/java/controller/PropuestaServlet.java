@@ -5,6 +5,8 @@
  */
 package controller;
 
+import controller.entities.EstudianteJpaController;
+import controller.entities.PropuestaJpaController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,13 +14,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import models.Estudiante;
+import models.Propuesta;
 
 /**
  *
@@ -81,12 +88,38 @@ public class PropuestaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String path = "uploads";
-        Part part = request.getPart("file-propuesta");
-        String fileName = getFileName(part);
+        try{
+            int numEsts = Integer.parseInt(request.getParameter("numestudiantes"));
+            List<Estudiante> estudiantes = new ArrayList<>(numEsts);
+            for (int i = 1; i <= numEsts; i++) {
+                int cod = Integer.parseInt(request.getParameter("codestudiante" + i));
+                String name = request.getParameter("estudiante" + i);
+                estudiantes.add(new Estudiante((long) cod, name));
+            }
+            String tematica = request.getParameter("tematica");
+            int modalidad = Integer.parseInt(request.getParameter("modalidadesList"));
+            Propuesta p = new Propuesta(tematica, estudiantes, modalidad);
+            PropuestaJpaController controller = new PropuestaJpaController((EntityManagerFactory) getServletContext().getAttribute("emf"));
+            controller.create(p);
+            Part part = request.getPart("file-propuesta");
+            String filePath = "propuesta_" + p.getId();
+            filePath = uploadFile(filePath, part);
+            if(filePath != null){
+                p.setRutaPropuesta(filePath);
+                controller.edit(p);
+                LOGGER.log(Level.INFO, "Propuesta creada: {0}", p);
+            }else{
+                controller.destroy(p.getId());
+            }
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "Problems creating propuesta. Error: {0}", e.getMessage());
+        }
+    }
+    
+    public String uploadFile(String fileName, Part part) throws IOException{
+        String res = null;
         OutputStream out = null;
         InputStream fileContent = null;
-        PrintWriter writer = response.getWriter();
         try {
             File f = new File(fileName);
             out = new FileOutputStream(f);
@@ -97,9 +130,9 @@ public class PropuestaServlet extends HttpServlet {
                 out.write(bytes, 0, read);
             }
             LOGGER.log(Level.INFO, "File uploaded at {0}",f.getAbsolutePath());
-        } catch (FileNotFoundException e) {
+            res = f.getAbsolutePath();
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", e.getMessage());
-            writer.println("File Not Upload");
         } finally{
             if (out != null) {
                 out.close();
@@ -107,11 +140,8 @@ public class PropuestaServlet extends HttpServlet {
             if (fileContent != null) {
                 fileContent.close();
             }
-            if (writer != null) {
-                writer.close();
-            }
         }
-        
+        return res;
     }
     
     private String getFileName(Part part){

@@ -30,12 +30,36 @@ public class Estudiante implements Serializable {
     @ManyToMany(mappedBy = "estudiantes")
     private List<Propuesta> propuestas;
 
+    public Estudiante() {
+    }
+
+    public Estudiante(Long codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
+    
     public Long getCodigo() {
         return codigo;
     }
 
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Propuesta> getPropuestas() {
+        return propuestas;
+    }
+
+    public void setPropuestas(List<Propuesta> propuestas) {
+        this.propuestas = propuestas;
     }
 
     @Override
