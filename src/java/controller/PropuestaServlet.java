@@ -7,6 +7,7 @@ package controller;
 
 import controller.entities.EstudianteJpaController;
 import controller.entities.PropuestaJpaController;
+import controller.util.Utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -103,17 +104,24 @@ public class PropuestaServlet extends HttpServlet {
             controller.create(p);
             Part part = request.getPart("file-propuesta");
             String filePath = "propuesta_" + p.getId();
-            filePath = uploadFile(filePath, part);
+            filePath = Utils.uploadFile(filePath, part, LOGGER);
             if(filePath != null){
                 p.setRutaPropuesta(filePath);
                 controller.edit(p);
                 LOGGER.log(Level.INFO, "Propuesta creada: {0}", p);
+                request.setAttribute("title", "Propuesta agregada");
+                request.setAttribute("message", "La propuesta ha sido agregada y se procedera a su revisión, el código de su propuesta es el siguiente " + p.getId());
+                request.setAttribute("result", "Éxito");
             }else{
                 controller.destroy(p.getId());
+                request.setAttribute("title", "Error");
+                request.setAttribute("message", "La propuesta no ha sido agregada");
+                request.setAttribute("result", "Error :(");
             }
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "Problems creating propuesta. Error: {0}", e.getMessage());
         }
+        request.getRequestDispatcher("/result-page.jsp").forward(request, response);
     }
     
     public String uploadFile(String fileName, Part part) throws IOException{

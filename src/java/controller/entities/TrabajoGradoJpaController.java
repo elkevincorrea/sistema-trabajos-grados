@@ -12,20 +12,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
-import models.Propuesta;
+import models.Trabajo;
 
 /**
  *
  * @author kecc
  */
-public class PropuestaJpaController implements Serializable {
+public class TrabajoGradoJpaController implements Serializable {
 
-    public PropuestaJpaController(EntityManagerFactory emf) {
+    public TrabajoGradoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,12 +31,12 @@ public class PropuestaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Propuesta propuesta) {
+    public void create(Trabajo trabajoGrado) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(propuesta);
+            em.persist(trabajoGrado);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -48,19 +45,19 @@ public class PropuestaJpaController implements Serializable {
         }
     }
 
-    public void edit(Propuesta propuesta) throws NonexistentEntityException, Exception {
+    public void edit(Trabajo trabajoGrado) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            propuesta = em.merge(propuesta);
+            trabajoGrado = em.merge(trabajoGrado);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = propuesta.getId();
-                if (findPropuesta(id) == null) {
-                    throw new NonexistentEntityException("The propuesta with id " + id + " no longer exists.");
+                Long id = trabajoGrado.getId();
+                if (findTrabajo(id) == null) {
+                    throw new NonexistentEntityException("The trabajoGrado with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -76,14 +73,14 @@ public class PropuestaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Propuesta propuesta;
+            Trabajo trabajoGrado;
             try {
-                propuesta = em.getReference(Propuesta.class, id);
-                propuesta.getId();
+                trabajoGrado = em.getReference(Trabajo.class, id);
+                trabajoGrado.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The propuesta with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The trabajoGrado with id " + id + " no longer exists.", enfe);
             }
-            em.remove(propuesta);
+            em.remove(trabajoGrado);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -92,35 +89,19 @@ public class PropuestaJpaController implements Serializable {
         }
     }
 
-    public List<Propuesta> findPropuestaEntities() {
-        return findPropuestaEntities(true, -1, -1);
+    public List<Trabajo> findTrabajoEntities() {
+        return findTrabajoEntities(true, -1, -1);
     }
 
-    public List<Propuesta> findPropuestaEntities(int maxResults, int firstResult) {
-        return findPropuestaEntities(false, maxResults, firstResult);
-    }
-    
-    public List<Propuesta> findPropuestasAprobadas(){
-        EntityManager em = getEntityManager();
-        try{
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Propuesta> q = cb.createQuery(Propuesta.class);
-            Root<Propuesta> c = q.from(Propuesta.class);
-            q.select(c).where(cb.equal(c.get("estado"), 1));
-            Query query = em.createQuery(q);
-            return query.getResultList();
-        }finally{
-            if(em != null){
-                em.close();
-            }
-        }
+    public List<Trabajo> findTrabajoEntities(int maxResults, int firstResult) {
+        return findTrabajoEntities(false, maxResults, firstResult);
     }
 
-    private List<Propuesta> findPropuestaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Trabajo> findTrabajoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Propuesta.class));
+            cq.select(cq.from(Trabajo.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -132,20 +113,20 @@ public class PropuestaJpaController implements Serializable {
         }
     }
 
-    public Propuesta findPropuesta(Long id) {
+    public Trabajo findTrabajo(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Propuesta.class, id);
+            return em.find(Trabajo.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getPropuestaCount() {
+    public int getTrabajoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Propuesta> rt = cq.from(Propuesta.class);
+            Root<Trabajo> rt = cq.from(Trabajo.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
