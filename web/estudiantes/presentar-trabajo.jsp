@@ -23,7 +23,7 @@
                                 <form action="CrearTrabajoGrado" method="GET">
                                     <select class="form-control" name="propuesta"> 
                                 <%for(models.Propuesta p : propuestas){ %>
-                            <option value="<%= p.getId()%>"><%= p.getTematica()%></option>
+                                    <option value="<%= p.getId()%>"><%= p.getTematica()%></option>
                                 <%}%>
                                     </select>
                                     <button type="submit" class="btn btn-primary btn-xs">Buscar <i class="fa fa-search fa-fw"></i></button>
@@ -59,6 +59,15 @@
                                         </div>
                                     </div>
                                     <br/>
+                                    <div class="form-group">
+                                        <label>Selecciona el director del trabajo</label>
+                                        <select class="form-control" name="cboDirector">
+                                            <option value="Director 1">Director 1</option>
+                                            <option value="Director 2">Director 2</option>
+                                            <option value="Director 3">Director 3</option>
+                                            <option value="Director 4">Director 4</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="">Selecciona el documento final de tu ordenador</label>
                                         <input type="file" class="form-control file" name="file-documento" data-show-preview="false" required>

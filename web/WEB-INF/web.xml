@@ -20,6 +20,10 @@
         <servlet-name>ListPropuestasServlet</servlet-name>
         <servlet-class>controller.ListPropuestasServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListTrabajosServlet</servlet-name>
+        <servlet-class>controller.ListTrabajosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FileServlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>ListPropuestasServlet</servlet-name>
         <url-pattern>/comite/ListPropuestas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListTrabajosServlet</servlet-name>
+        <url-pattern>/comite/ListTrabajos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

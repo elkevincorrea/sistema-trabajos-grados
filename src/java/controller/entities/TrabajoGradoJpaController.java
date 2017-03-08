@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import models.Trabajo;
@@ -110,6 +111,22 @@ public class TrabajoGradoJpaController implements Serializable {
             return q.getResultList();
         } finally {
             em.close();
+        }
+    }
+    
+    public List<Trabajo> findTrabajosByDirector(String director){
+        EntityManager em = getEntityManager();
+        try{
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Trabajo> q = cb.createQuery(Trabajo.class);
+            Root<Trabajo> c = q.from(Trabajo.class);
+            q.select(c).where(cb.equal(c.get("director"), director));
+            Query query = em.createQuery(q);
+            return query.getResultList();
+        }finally{
+            if(em != null){
+                em.close();
+            }
         }
     }
 

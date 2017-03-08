@@ -36,6 +36,10 @@ public class Trabajo implements Serializable {
     
     @Column(name = "fecha_vencimiento")
     private Date fechaVencimiento;
+    
+    private String director;
+    
+    private int estado;
 
     public Trabajo() {
     }
@@ -44,6 +48,7 @@ public class Trabajo implements Serializable {
         this.propuesta = propuesta;
         this.fechaPresentacion = new Date(System.currentTimeMillis());
         this.fechaVencimiento = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365));
+        this.estado = 1;
     }
     
     public Long getId() {
@@ -84,6 +89,22 @@ public class Trabajo implements Serializable {
 
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     @Override

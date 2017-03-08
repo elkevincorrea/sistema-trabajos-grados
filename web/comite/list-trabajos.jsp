@@ -1,33 +1,33 @@
 <%-- 
-    Document   : list-propuestas.jsp
-    Created on : Mar 7, 2017, 5:27:27 PM
+    Document   : list-trabajos
+    Created on : Mar 8, 2017, 9:02:17 AM
     Author     : kecc
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.List,models.Propuesta"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.List,models.Trabajo"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Propuestas</title>
+        <title>Trabajos de Grado</title>
         <%@include file="/header.html" %>
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     </head>
     <body>
         <div class="container">
             <div class="well">
-                <h4>Propuestas Registradas</h4>
-                <form  action="ListPropuestas" method="GET">
+                <h4>Trabajos de Grado Registrados</h4>
+                <form  action="ListTrabajos" method="GET">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Estado:</label>
-                                <select class="form-control input-sm" name="estado">
-                                    <option value="null">Seleccione un estado</option>
-                                    <option value="1">En Revisión</option>
-                                    <option value="2">Corrección</option>
-                                    <option value="3">Aprobada</option>
-                                    <option value="4">Rechazada</option>
+                                <label>Director: </label>
+                                <select class="form-control input-sm" name="director">
+                                    <option value="">Seleccione un director</option>
+                                    <option value="Director 1">Director 1</option>
+                                    <option value="Director 2">Director 2</option>
+                                    <option value="Director 3">Director 3</option>
+                                    <option value="Director 4">Director 4</option>
                                 </select>
                             </div>
                         </div>
@@ -49,21 +49,21 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tematica</th>
+                                    <th>Director</th>
                                     <th>Fecha Vencimiento</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
-                                    List<Propuesta> propuestas = (List<Propuesta>) request.getAttribute("listPropuestas");
+                                    List<Trabajo> propuestas = (List<Trabajo>) request.getAttribute("listTrabajos");
                                     if(propuestas != null){
-                                        for(Propuesta p : propuestas){ %>
+                                        for(Trabajo t : propuestas){ %>
                                         <tr>
-                                            <th><%=p.getId()%></th>
-                                            <th><%=p.getTematica()%></th>
-                                            <th><%=p.getFechaVencimiento() != null ? p.getFechaVencimiento().toString() : ""%></th>
-                                            <th><%=p.getEstado()%></th>
+                                            <th><%=t.getId()%></th>
+                                            <th><%=t.getDirector() == null ? "No asignado" : t.getDirector()%></th>
+                                            <th><%=t.getFechaVencimiento() != null ? t.getFechaVencimiento().toString() : ""%></th>
+                                            <th><%=t.getEstado()%></th>
                                         </tr>
                                         <%}
                                     }

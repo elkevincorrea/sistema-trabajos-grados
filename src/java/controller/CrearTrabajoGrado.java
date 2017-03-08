@@ -99,8 +99,10 @@ public class CrearTrabajoGrado extends HttpServlet {
             Part part = request.getPart("file-documento");
             String filePath = "documento_" + pId;
             filePath = Utils.uploadFile(filePath, part, LOGGER);
-            if(filePath != null){
+            String director = request.getParameter("cboDirector");
+            if(filePath != null && director != null){
                 Trabajo t = new Trabajo(propuesta);
+                t.setDirector(director);
                 t.setRutaDocFinal(filePath);
                 TrabajoGradoJpaController controllerTrabajos = new TrabajoGradoJpaController(emf);
                 controllerTrabajos.create(t);
