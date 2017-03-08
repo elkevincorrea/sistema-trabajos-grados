@@ -45,17 +45,22 @@ public class ListPropuestasServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Propuesta> propuestas = null;
-        int estado = request.getParameter("estado") != null ? Integer.parseInt(request.getParameter("estado")) : -1;
+        int estado;
+        try{
+            estado = request.getParameter("estado") != null ? Integer.parseInt(request.getParameter("estado")) : -1;
+        }catch (Exception e){
+            estado = -1;
+        }
         if(estado != -1){
             propuestas = propuestaController.findPropuestasByEstado(estado);
         }else{
             propuestas = propuestaController.findPropuestaEntities();
         }
         String ordenar = (String) request.getParameter("ordenarVencimiento");
-        if(ordenar != null){
+        if(ordenar != null && ordenar != ""){
             propuestas.sort((Propuesta p1, Propuesta p2) -> {
                 Date d = new Date(System.currentTimeMillis());
-                int dif1 = d.compareTo(p1.getFechaVencimiento()), dif2 = d.compareTo(p2.getFechaVencimiento());
+                int dif1 = p1.getFechaVencimiento() != null ? d.compareTo(p1.getFechaVencimiento()) : 0, dif2 = p2.getFechaVencimiento() != null ? d.compareTo(p2.getFechaVencimiento()) : 0;
                 return dif1 - dif2;
             });
         }
