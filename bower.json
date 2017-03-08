@@ -1,0 +1,15 @@
+{
+  "name": "SistemaTrabajoGrados",
+  "homepage": "https://github.com/kevinjoan16/sistema-trabajos-grados",
+  "description": "Sistema de trabajo de grados",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/bower_components",
+    "test",
+    "tests"
+  ]
+}

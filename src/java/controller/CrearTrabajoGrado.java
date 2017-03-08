@@ -105,7 +105,7 @@ public class CrearTrabajoGrado extends HttpServlet {
                 TrabajoGradoJpaController controllerTrabajos = new TrabajoGradoJpaController(emf);
                 controllerTrabajos.create(t);
                 request.setAttribute("title", "Documento Registrado");
-                request.setAttribute("message", "El documento final de su trabajo ha sido registrado");
+                request.setAttribute("message", "El documento final de su trabajo ha sido registrado con fecha " + t.getFechaPresentacion().toString());
                 request.setAttribute("result", "Éxito");
             }else{
                 request.setAttribute("title", "Error");

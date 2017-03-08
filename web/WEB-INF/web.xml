@@ -16,6 +16,10 @@
         <servlet-name>CrearTrabajoGrado</servlet-name>
         <servlet-class>controller.CrearTrabajoGrado</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListPropuestasServlet</servlet-name>
+        <servlet-class>controller.ListPropuestasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FileServlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>CrearTrabajoGrado</servlet-name>
         <url-pattern>/estudiantes/CrearTrabajoGrado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListPropuestasServlet</servlet-name>
+        <url-pattern>/comite/ListPropuestas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

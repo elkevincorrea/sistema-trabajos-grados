@@ -6,6 +6,9 @@
 package models;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.concurrent.TimeUnit;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,12 +31,19 @@ public class Trabajo implements Serializable {
     private Propuesta propuesta;
     
     private String rutaDocFinal;
+    @Column(name = "fecha_presentacion")
+    private Date fechaPresentacion;
+    
+    @Column(name = "fecha_vencimiento")
+    private Date fechaVencimiento;
 
     public Trabajo() {
     }
 
     public Trabajo(Propuesta propuesta) {
         this.propuesta = propuesta;
+        this.fechaPresentacion = new Date(System.currentTimeMillis());
+        this.fechaVencimiento = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365));
     }
     
     public Long getId() {
@@ -58,6 +68,22 @@ public class Trabajo implements Serializable {
 
     public void setRutaDocFinal(String rutaDocFinal) {
         this.rutaDocFinal = rutaDocFinal;
+    }
+
+    public Date getFechaPresentacion() {
+        return fechaPresentacion;
+    }
+
+    public void setFechaPresentacion(Date fechaPresentacion) {
+        this.fechaPresentacion = fechaPresentacion;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     @Override

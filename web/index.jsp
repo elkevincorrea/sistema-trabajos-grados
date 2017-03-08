@@ -13,8 +13,8 @@
     </head>
     <body>
         <div class="container">
-            <div class="col-md-6"><a href="estudiantes" class="btn btn-primary btn-block">Estudiantes</a></div>
-            <div class="col-md-6"><a href="" class="btn btn-primary btn-block">Cómite de Grado</a></div>
+            <div class="col-md-6"><a href="estudiantes" class="btn btn-primary btn-block"><i class="fa fa-user fa-4x fa-top-icon"></i>Estudiantes</a></div>
+            <div class="col-md-6"><a href="" class="btn btn-primary btn-block"><i class="fa fa-users fa-4x fa-top-icon"></i>Cómite de Grado</a></div>
         </div>
     </body>
 </html>

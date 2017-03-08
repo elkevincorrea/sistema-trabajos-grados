@@ -20,8 +20,15 @@
     </head>
     <body>
         <div class="well">
-            <h2><%
+            <%
                 String resultado = (String) request.getAttribute("result");
+                if(resultado.equals("Éxito")){%>
+                <i class="fa fa-check fa-4x"></i> 
+                <%} else{ %>
+                <i class="fa fa-warning fa-4x"></i>     
+                <%}
+                %>
+            <h2><%
                 out.print(resultado);
                 %></h2>
             <p><%

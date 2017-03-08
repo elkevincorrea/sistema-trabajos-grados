@@ -115,6 +115,22 @@ public class PropuestaJpaController implements Serializable {
             }
         }
     }
+    
+    public List<Propuesta> findPropuestasByEstado(int pEstado){
+        EntityManager em = getEntityManager();
+        try{
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Propuesta> q = cb.createQuery(Propuesta.class);
+            Root<Propuesta> c = q.from(Propuesta.class);
+            q.select(c).where(cb.equal(c.get("estado"), pEstado));
+            Query query = em.createQuery(q);
+            return query.getResultList();
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
 
     private List<Propuesta> findPropuestaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();

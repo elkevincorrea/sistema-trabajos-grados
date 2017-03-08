@@ -6,7 +6,9 @@
 package models;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +46,12 @@ public class Propuesta implements Serializable {
      */
     private Integer estado;
     
+    @Column(name = "fecha_presentacion")
+    private Date fechaPresentacion;
+    
+    @Column(name = "fecha_vencimiento")
+    private Date fechaVencimiento;
+    
     public Propuesta(){        
     }
 
@@ -52,8 +60,9 @@ public class Propuesta implements Serializable {
         this.estudiantes = estudiantes;
         this.modalidad = modalidad;
         this.estado = 1;
+        this.fechaPresentacion = new Date(System.currentTimeMillis());
+        this.fechaVencimiento = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365));
     }
-
     public String getTematica() {
         return tematica;
     }
@@ -100,6 +109,22 @@ public class Propuesta implements Serializable {
 
     public void setEstado(Integer estado) {
         this.estado = estado;
+    }
+
+    public Date getFechaPresentacion() {
+        return fechaPresentacion;
+    }
+
+    public void setFechaPresentacion(Date fechaPresentacion) {
+        this.fechaPresentacion = fechaPresentacion;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     @Override

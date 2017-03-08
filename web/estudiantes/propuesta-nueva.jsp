@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <br/>
-                        <input type="button" value="Agregar estudiante" class="btn btn-primary btn-xs" name="agregarEst" id="agregarEstBtn"/>
+                        <button type="button" class="btn btn-primary btn-xs" name="agregarEst" id="agregarEstBtn"><i class="fa fa-plus-square fa-fw"></i>  Agregar Estudiante</button>
                     </div>
                     <div class="form-group">
                         <label for="tematica" class="control-label">Tem&aacute;tica a trabajar</label>
@@ -54,7 +54,7 @@
                     <label class="control-label">Por favor diligencia el siguiente formato</label>
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
-                            <a href="/SistemaTrabajoGrados/resources/formato-propuesta.docx" target="_blank" class="btn btn-primary btn-block">Formato Propuesta de grado</a>
+                            <a href="/SistemaTrabajoGrados/resources/formato-propuesta.docx" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-download fa-fw"></i> Formato Propuesta de grado</a>
                         </div>
                     </div>
                     <br/>
@@ -62,7 +62,7 @@
                         <label for="">Selecciona el formato diligenciado de tu ordenador</label>
                         <input type="file" class="form-control file" name="file-propuesta" data-show-preview="false" required>
                     </div>
-                    <input type="submit" class="btn btn-primary btn-block" value="Enviar propuesta de grado" name="btnEnviar" />
+                    <button type="submit" class="btn btn-primary btn-block" name="btnEnviar">Enviar propuesta de grado <i class="fa fa-send fa-fw"></i></button>
                 </form>
             </div>
         </div>

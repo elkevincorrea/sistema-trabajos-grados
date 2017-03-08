@@ -5,15 +5,9 @@
  */
 package controller;
 
-import controller.entities.EstudianteJpaController;
 import controller.entities.PropuestaJpaController;
 import controller.util.Utils;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +29,13 @@ import models.Propuesta;
 public class PropuestaServlet extends HttpServlet {
 
     private final static Logger LOGGER = Logger.getLogger(PropuestaServlet.class.getCanonicalName());
+    private PropuestaJpaController propuestaController;
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        this.propuestaController = new PropuestaJpaController((EntityManagerFactory) getServletContext().getAttribute("emf"));
+    }
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -74,7 +75,7 @@ public class PropuestaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**
@@ -93,63 +94,37 @@ public class PropuestaServlet extends HttpServlet {
             int numEsts = Integer.parseInt(request.getParameter("numestudiantes"));
             List<Estudiante> estudiantes = new ArrayList<>(numEsts);
             for (int i = 1; i <= numEsts; i++) {
-                int cod = Integer.parseInt(request.getParameter("codestudiante" + i));
+                Long cod = Long.parseLong(request.getParameter("codestudiante" + i));
                 String name = request.getParameter("estudiante" + i);
-                estudiantes.add(new Estudiante((long) cod, name));
+                estudiantes.add(new Estudiante(cod, name));
             }
             String tematica = request.getParameter("tematica");
             int modalidad = Integer.parseInt(request.getParameter("modalidadesList"));
             Propuesta p = new Propuesta(tematica, estudiantes, modalidad);
-            PropuestaJpaController controller = new PropuestaJpaController((EntityManagerFactory) getServletContext().getAttribute("emf"));
-            controller.create(p);
+            propuestaController.create(p);
             Part part = request.getPart("file-propuesta");
             String filePath = "propuesta_" + p.getId();
             filePath = Utils.uploadFile(filePath, part, LOGGER);
             if(filePath != null){
                 p.setRutaPropuesta(filePath);
-                controller.edit(p);
+                propuestaController.edit(p);
                 LOGGER.log(Level.INFO, "Propuesta creada: {0}", p);
                 request.setAttribute("title", "Propuesta agregada");
-                request.setAttribute("message", "La propuesta ha sido agregada y se procedera a su revisión, el código de su propuesta es el siguiente " + p.getId());
+                request.setAttribute("message", "La propuesta ha sido agregada y se procedera a su revisión, el código de su propuesta es el siguiente " + p.getId() + ", y vence en " + p.getFechaVencimiento().toString());
                 request.setAttribute("result", "Éxito");
             }else{
-                controller.destroy(p.getId());
+                propuestaController.destroy(p.getId());
                 request.setAttribute("title", "Error");
                 request.setAttribute("message", "La propuesta no ha sido agregada");
                 request.setAttribute("result", "Error :(");
             }
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "Problems creating propuesta. Error: {0}", e.getMessage());
+            request.setAttribute("title", "Error");
+            request.setAttribute("message", "La propuesta no ha sido agregada");
+            request.setAttribute("result", "Error :(");
         }
         request.getRequestDispatcher("/result-page.jsp").forward(request, response);
-    }
-    
-    public String uploadFile(String fileName, Part part) throws IOException{
-        String res = null;
-        OutputStream out = null;
-        InputStream fileContent = null;
-        try {
-            File f = new File(fileName);
-            out = new FileOutputStream(f);
-            fileContent = part.getInputStream();
-            int read = 0;
-            byte[] bytes = new byte[1024];
-            while((read = fileContent.read(bytes)) != -1){
-                out.write(bytes, 0, read);
-            }
-            LOGGER.log(Level.INFO, "File uploaded at {0}",f.getAbsolutePath());
-            res = f.getAbsolutePath();
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", e.getMessage());
-        } finally{
-            if (out != null) {
-                out.close();
-            }
-            if (fileContent != null) {
-                fileContent.close();
-            }
-        }
-        return res;
     }
     
     private String getFileName(Part part){

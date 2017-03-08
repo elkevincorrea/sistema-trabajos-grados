@@ -26,7 +26,7 @@
                             <option value="<%= p.getId()%>"><%= p.getTematica()%></option>
                                 <%}%>
                                     </select>
-                                    <input type="submit" class="btn btn-primary" value="Buscar">
+                                    <button type="submit" class="btn btn-primary btn-xs">Buscar <i class="fa fa-search fa-fw"></i></button>
                                 </form>
                             <%} else{
                                 models.Propuesta propuesta = (models.Propuesta) request.getAttribute("propuesta");
@@ -45,11 +45,17 @@
                                                 <input class="form-control" name="tempropuesta" value="<%= propuesta.getTematica()%>" readonly/>
                                             </div>
                                         </div>
+                                        <div class="col-md-4 col-md-offset-4">
+                                            <div class="form-group text-center">
+                                                <label class="control-label">Fecha vencimiento</label>
+                                                <input class="form-control text-center" name="idpropuesta" value="<%= propuesta.getFechaVencimiento().toString()%>" readonly/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <br/>
                                     <div class="row">
                                         <div class="col-md-6 col-md-offset-3">
-                                            <a href="/SistemaTrabajoGrados/resources/formato-propuesta.docx" target="_blank" class="btn btn-primary btn-block">Formato Documento Final</a>
+                                            <a href="/SistemaTrabajoGrados/resources/formato-propuesta.docx" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-download fa-fw"></i> Formato Documento Final</a>
                                         </div>
                                     </div>
                                     <br/>
@@ -57,7 +63,7 @@
                                         <label for="">Selecciona el documento final de tu ordenador</label>
                                         <input type="file" class="form-control file" name="file-documento" data-show-preview="false" required>
                                     </div>
-                                    <input type="submit" class="btn btn-primary btn-block" value="Enviar"/>
+                                    <button type="submit" class="btn btn-primary btn-block">Enviar <i class="fa fa-send fa-fw"></i></button>
                                 </form>
                                 <%}
                             }%>
